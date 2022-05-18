@@ -1,14 +1,18 @@
-export default function orderByProps(obj, [key1, key2]) {
+export default function orderByProps(obj, keys) {
   const resultArr = [];
-  for (const prop in obj) {
-    if (prop === key1 || prop === key2) {
-      resultArr.push({ key: prop, value: obj[prop] });
-      delete obj[prop];
+  const sortArr = Object.keys(obj);
+  sortArr.sort();
+
+  for (const key of keys) {
+    for (let i = 0; i < sortArr.length; i += 1) {
+      if (key === sortArr[i]) {
+        resultArr.push({ key: sortArr[i], value: obj[sortArr[i]] });
+        sortArr.splice(i, 1);
+      }
     }
   }
-  const sortedArr = Object.entries(obj).sort();
-  for (const el of sortedArr) {
-    resultArr.push({ key: el[0], value: el[1] });
+  for (const el of sortArr) {
+    resultArr.push({ key: el, value: obj[el] });
   }
-  return resultArr;
+  return (resultArr);
 }
